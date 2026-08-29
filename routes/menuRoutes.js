@@ -42,4 +42,50 @@ router.post('/:branch', async (req, res) => {
   }
 });
 
+// Save/Update full menu for a branch (PUT /)
+router.put('/', async (req, res) => {
+  try {
+    const { branch, categories } = req.body;
+    if (!branch || !categories) return res.status(400).json({ message: 'Branch and categories are required' });
+    
+    // Clear old menu
+    await Menu.deleteMany({ branch });
+    
+    // Insert new
+    const docsToInsert = Object.keys(categories).map(category => ({
+      branch,
+      category,
+      items: categories[category]
+    }));
+    
+    await Menu.insertMany(docsToInsert);
+    res.status(200).json({ message: 'Menu updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Save/Update full menu for a branch (PUT /:branch)
+router.put('/:branch', async (req, res) => {
+  try {
+    const { branch } = req.params;
+    const menuData = req.body;
+    
+    // Clear old menu
+    await Menu.deleteMany({ branch });
+    
+    // Insert new
+    const docsToInsert = Object.keys(menuData).map(category => ({
+      branch,
+      category,
+      items: menuData[category]
+    }));
+    
+    await Menu.insertMany(docsToInsert);
+    res.status(200).json({ message: 'Menu updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

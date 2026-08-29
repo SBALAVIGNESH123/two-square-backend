@@ -18,7 +18,11 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: { type: String, required: true, enum: ['Cash', 'UPI', 'Customer Pending'] },
   customerName: { type: String }, // For pending orders
   customerPhone: { type: String },
-  status: { type: String, default: 'Completed', enum: ['Completed', 'Pending'] },
+  pendingAmount: { type: Number, default: 0 },
+  initialPendingAmount: { type: Number, default: 0 },
+  pendingCleared: { type: Boolean, default: false },
+  pendingClearedDate: { type: String },
+  status: { type: String, default: 'Completed', enum: ['Completed', 'Pending', 'Cancelled', 'cancelled', 'completed', 'pending'] },
   date: { type: String, required: true },
   timestamp: { type: String, required: true },
   shiftClosed: { type: Boolean, default: false }

@@ -15,6 +15,16 @@ router.get('/:branch/uncleared', async (req, res) => {
   }
 });
 
+// Get all vendor dues for a branch
+router.get('/:branch', async (req, res) => {
+  try {
+    const dues = await VendorDue.find({ branch: req.params.branch });
+    res.json(dues);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Create a new vendor due
 router.post('/', async (req, res) => {
   const due = new VendorDue(req.body);

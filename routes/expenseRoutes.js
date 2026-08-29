@@ -18,6 +18,16 @@ router.get('/:branch/today', async (req, res) => {
   }
 });
 
+// Get all expenses for a branch
+router.get('/:branch', async (req, res) => {
+  try {
+    const expenses = await Expense.find({ branch: req.params.branch });
+    res.json(expenses);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Create a new expense
 router.post('/', async (req, res) => {
   const expense = new Expense(req.body);

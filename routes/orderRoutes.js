@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 router.put('/:id/cancel', async (req, res) => {
   try {
     const order = await Order.findOneAndUpdate(
-      { orderId: req.params.id }, // Assuming frontend passes the custom orderId or use _id
+      { orderId: req.params.id },
       { status: 'Cancelled' },
       { new: true }
     );
@@ -61,7 +61,7 @@ router.put('/:id/cancel', async (req, res) => {
 router.put('/:id/pay', async (req, res) => {
   try {
     const { amountPaid, date } = req.body;
-    const order = await Order.findOne({ id: req.params.id }); // Using frontend's timestamp 'id'
+    const order = await Order.findOne({ orderId: req.params.id });
     
     if (!order) return res.status(404).json({ message: 'Order not found' });
     
