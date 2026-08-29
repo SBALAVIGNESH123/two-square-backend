@@ -6,6 +6,7 @@ const inventorySchema = new mongoose.Schema({
   items: [{
     id: { type: String, required: true },
     name: { type: String, required: true },
+    price: { type: Number, default: 0 },
     stock: { type: Number, required: true, default: 0 },
     lowStockThreshold: { type: Number, default: 10 }
   }]
