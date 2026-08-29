@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
 const vendorDueSchema = new mongoose.Schema({
-  id: { type: String, required: true },
+  id: { type: mongoose.Schema.Types.Mixed, required: true },
   branch: { type: String, required: true },
-  vendorName: { type: String, required: true },
-  description: { type: String },
-  totalBill: { type: Number, required: true },
-  amountPaid: { type: Number, required: true },
-  pendingAmount: { type: Number, required: true },
-  date: { type: String, required: true },
+  vendorName: { type: String, default: '' },
+  description: { type: String, default: '' },
+  totalBill: { type: Number, default: 0 },
+  amountPaid: { type: Number, default: 0 },
+  pendingAmount: { type: Number, default: 0 },
+  date: { type: String, default: '' },
   cleared: { type: Boolean, default: false },
   clearedDate: { type: String }
-}, { timestamps: true });
+}, { timestamps: true, strict: false });
 
 module.exports = mongoose.model('VendorDue', vendorDueSchema);
