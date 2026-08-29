@@ -40,7 +40,11 @@ router.post('/', async (req, res) => {
 router.put('/:id/pay', async (req, res) => {
   try {
     const { amountPaid, date } = req.body;
-    const due = await VendorDue.findOne({ id: req.params.id });
+    const idParam = req.params.id;
+    // Try matching as both number and string since frontend stores id as Number
+    const due = await VendorDue.findOne({ 
+      $or: [{ id: idParam }, { id: Number(idParam) }]
+    });
     
     if (!due) return res.status(404).json({ message: 'Vendor due not found' });
     

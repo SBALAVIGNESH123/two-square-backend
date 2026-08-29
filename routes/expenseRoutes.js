@@ -50,8 +50,9 @@ router.post('/', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     // using findOneAndUpdate to just mark it as cancelled instead of hard deleting
+    const idParam = req.params.id;
     const expense = await Expense.findOneAndUpdate(
-      { id: req.params.id }, 
+      { $or: [{ id: idParam }, { id: Number(idParam) }] }, 
       { status: 'cancelled' },
       { new: true }
     );
@@ -65,8 +66,9 @@ router.delete('/:id', async (req, res) => {
 // Close shift for an expense
 router.put('/:id/close-shift', async (req, res) => {
   try {
+    const idParam = req.params.id;
     const expense = await Expense.findOneAndUpdate(
-      { id: parseInt(req.params.id) },
+      { $or: [{ id: idParam }, { id: Number(idParam) }] },
       { shiftClosed: true },
       { new: true }
     );
