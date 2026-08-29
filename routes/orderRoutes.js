@@ -12,14 +12,13 @@ router.get('/:branch', async (req, res) => {
   }
 });
 
-// Get today's active orders for a branch
+// Get today's orders for a branch (ALL orders, not just open shift)
 router.get('/:branch/today', async (req, res) => {
   try {
     const { date } = req.query; // pass current business date
     const orders = await Order.find({ 
       branch: req.params.branch,
-      date: date,
-      shiftClosed: false 
+      date: date
     });
     res.json(orders);
   } catch (error) {

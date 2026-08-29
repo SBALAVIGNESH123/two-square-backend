@@ -2,15 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Expense = require('../models/Expense');
 
-// Get today's expenses for a branch
+// Get today's expenses for a branch (ALL expenses for the date)
 router.get('/:branch/today', async (req, res) => {
   try {
     const { date } = req.query; 
     const expenses = await Expense.find({ 
       branch: req.params.branch,
-      date: date,
-      shiftClosed: false,
-      status: 'active'
+      date: date
     });
     res.json(expenses);
   } catch (error) {
