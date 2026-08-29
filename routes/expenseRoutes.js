@@ -62,4 +62,19 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Close shift for an expense
+router.put('/:id/close-shift', async (req, res) => {
+  try {
+    const expense = await Expense.findOneAndUpdate(
+      { id: parseInt(req.params.id) },
+      { shiftClosed: true },
+      { new: true }
+    );
+    if (!expense) return res.status(404).json({ message: 'Expense not found' });
+    res.json(expense);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

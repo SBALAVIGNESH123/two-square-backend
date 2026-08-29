@@ -79,4 +79,19 @@ router.put('/:id/pay', async (req, res) => {
   }
 });
 
+// Close shift for an order
+router.put('/:id/close-shift', async (req, res) => {
+  try {
+    const order = await Order.findOneAndUpdate(
+      { orderId: req.params.id },
+      { shiftClosed: true },
+      { new: true }
+    );
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
