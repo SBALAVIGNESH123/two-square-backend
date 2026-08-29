@@ -16,6 +16,7 @@ const menuRoutes = require('./routes/menuRoutes');
 const inventoryRoutes = require('./routes/inventoryRoutes');
 const vendorRoutes = require('./routes/vendorRoutes');
 const configRoutes = require('./routes/configRoutes');
+const shiftLogRoutes = require('./routes/shiftLogRoutes');
 
 // Use routes
 app.use('/api/orders', orderRoutes);
@@ -24,6 +25,7 @@ app.use('/api/menu', menuRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/vendors', vendorRoutes);
 app.use('/api/config', configRoutes);
+app.use('/api/shiftlogs', shiftLogRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
