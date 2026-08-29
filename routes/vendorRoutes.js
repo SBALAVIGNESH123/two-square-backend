@@ -70,4 +70,14 @@ router.delete('/:branch/all', async (req, res) => {
   }
 });
 
+// Wipe all vendor dues for a branch
+router.delete('/:branch/wipe-all', async (req, res) => {
+  try {
+    await VendorDue.deleteMany({ branch: req.params.branch });
+    res.json({ message: 'All vendor dues wiped' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

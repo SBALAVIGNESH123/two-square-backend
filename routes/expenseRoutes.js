@@ -77,4 +77,14 @@ router.put('/:id/close-shift', async (req, res) => {
   }
 });
 
+// Wipe all expenses for a branch
+router.delete('/:branch/wipe-all', async (req, res) => {
+  try {
+    await Expense.deleteMany({ branch: req.params.branch });
+    res.json({ message: 'All expenses wiped' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;

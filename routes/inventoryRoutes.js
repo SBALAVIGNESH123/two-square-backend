@@ -88,4 +88,14 @@ router.put('/:branch', async (req, res) => {
   }
 });
 
+// Wipe all inventory for a branch
+router.delete('/:branch/wipe-all', async (req, res) => {
+  try {
+    await Inventory.deleteMany({ branch: req.params.branch });
+    res.json({ message: 'Inventory wiped' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
