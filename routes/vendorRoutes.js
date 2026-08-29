@@ -44,16 +44,27 @@ router.put('/:id/pay', async (req, res) => {
     
     if (!due) return res.status(404).json({ message: 'Vendor due not found' });
     
-    if (amountPaid >= due.pendingAmount) {
+    due.amountPaid = (due.amountPaid || 0) + amountPaid;
+    if (due.amountPaid >= due.totalBill) {
       due.pendingAmount = 0;
       due.cleared = true;
       due.clearedDate = date;
     } else {
-      due.pendingAmount -= amountPaid;
+      due.pendingAmount = due.totalBill - due.amountPaid;
     }
     
     const updatedDue = await due.save();
     res.json(updatedDue);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Delete all vendor dues for a branch (used for wipe data)
+router.delete('/:branch/all', async (req, res) => {
+  try {
+    await VendorDue.deleteMany({ branch: req.params.branch });
+    res.json({ message: 'All vendor dues cleared' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
