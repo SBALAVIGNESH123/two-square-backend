@@ -10,7 +10,7 @@ router.get('/:branch', async (req, res) => {
       // Create default if none exists
       config = new Config({
         branch: req.params.branch,
-        businessDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+        businessDate: new Date().toISOString().split('T')[0]
       });
       await config.save();
     }
